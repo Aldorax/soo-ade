@@ -2,71 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
-  CheckCircle,
-  FileText,
-  Upload,
   Award,
-  ChevronDown,
-  MessageCircle,
-  Mail,
-  Phone,
+  CheckCircle,
+  AlertCircle,
+  HelpCircle,
+  UserPlus,
+  ClipboardList,
+  FileCheck,
 } from "lucide-react";
+import { Navbar } from "@/components/navbar";
 
-export default function Home() {
+export default function HowToApplyPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Navigation Bar */}
-      {/* <header className="sticky top-0 z-50 w-full border-b bg-white">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Award className="h-6 w-6 text-purple-600" />
-            <span className="font-bold text-xl">StateOrigin</span>
-          </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link
-              href="/"
-              className="text-sm font-medium hover:text-purple-600 transition-colors"
-            >
-              Home
-            </Link>
-            <Link
-              href="/about"
-              className="text-sm font-medium hover:text-purple-600 transition-colors"
-            >
-              About
-            </Link>
-            <Link
-              href="/how-to-apply"
-              className="text-sm font-medium hover:text-purple-600 transition-colors"
-            >
-              How to Apply
-            </Link>
-            <Link
-              href="/verify"
-              className="text-sm font-medium hover:text-purple-600 transition-colors"
-            >
-              Verify Certificate
-            </Link>
-            <Link
-              href="/contact"
-              className="text-sm font-medium hover:text-purple-600 transition-colors"
-            >
-              Contact
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Link
-              href="/login"
-              className="text-sm font-medium hover:text-purple-600 transition-colors hidden md:block"
-            >
-              Login
-            </Link>
-            <Button asChild className="bg-purple-600 hover:bg-purple-700">
-              <Link href="/register">Get Started</Link>
-            </Button>
-          </div>
-        </div>
-      </header> */}
+      {/* <Navbar /> */}
 
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-purple-50 to-indigo-50 py-16 md:py-24">
@@ -74,11 +23,11 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="md:w-1/2 space-y-6">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
-                Obtain Your State of Origin Certificate Easily
+                How to Apply for Your Certificate
               </h1>
               <p className="text-lg text-gray-700">
-                A streamlined digital process to verify your identity and
-                heritage. Fast, secure, and hassle-free.
+                Follow our simple step-by-step process to obtain your State of
+                Origin Certificate quickly and easily.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button
@@ -86,7 +35,7 @@ export default function Home() {
                   size="lg"
                   className="bg-purple-600 hover:bg-purple-700"
                 >
-                  <Link href="/register">Apply Now</Link>
+                  <Link href="/register">Start Application</Link>
                 </Button>
                 <Button
                   asChild
@@ -94,7 +43,7 @@ export default function Home() {
                   variant="outline"
                   className="border-purple-600 text-purple-600 hover:bg-purple-50"
                 >
-                  <Link href="/verify">Verify Certificate</Link>
+                  <Link href="#requirements">View Requirements</Link>
                 </Button>
               </div>
             </div>
@@ -104,7 +53,7 @@ export default function Home() {
               <div className="relative bg-white p-4 rounded-lg shadow-lg">
                 <Image
                   src="/placeholder.svg?height=400&width=500"
-                  alt="Certificate illustration"
+                  alt="Application process illustration"
                   width={500}
                   height={400}
                   className="rounded-md"
@@ -115,66 +64,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Application Process Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">
-              Why Choose Our Platform?
-            </h2>
+            <h2 className="text-3xl font-bold mb-4">Application Process</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Our digital platform simplifies the process of obtaining your
-              State of Origin Certificate with these key benefits
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-purple-50 p-6 rounded-lg border border-purple-100">
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle className="h-6 w-6 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Fast Processing</h3>
-              <p className="text-gray-600">
-                Get your certificate processed quickly with our streamlined
-                digital workflow and approval system.
-              </p>
-            </div>
-
-            <div className="bg-indigo-50 p-6 rounded-lg border border-indigo-100">
-              <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
-                <FileText className="h-6 w-6 text-indigo-600" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">
-                Secure Documentation
-              </h3>
-              <p className="text-gray-600">
-                Your documents and personal information are protected with
-                enterprise-grade security measures.
-              </p>
-            </div>
-
-            <div className="bg-violet-50 p-6 rounded-lg border border-violet-100">
-              <div className="w-12 h-12 bg-violet-100 rounded-full flex items-center justify-center mb-4">
-                <Upload className="h-6 w-6 text-violet-600" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Easy Verification</h3>
-              <p className="text-gray-600">
-                Certificates can be easily verified online by authorized parties
-                using our verification system.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How To Apply Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">How To Apply</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Follow these four simple steps to obtain your certificate of
-              origin
+              Our streamlined process makes it easy to apply for and receive
+              your State of Origin Certificate
             </p>
           </div>
 
@@ -192,6 +89,14 @@ export default function Home() {
                   Register on our platform with your email and create a secure
                   password to get started.
                 </p>
+                <div className="mt-4 bg-purple-50 p-3 rounded-md w-full">
+                  <h4 className="font-medium text-purple-700 mb-1">Tips:</h4>
+                  <ul className="text-sm text-gray-600 list-disc pl-5">
+                    <li>Use a valid email you have access to</li>
+                    <li>Create a strong password with at least 8 characters</li>
+                    <li>Keep your login details secure</li>
+                  </ul>
+                </div>
               </div>
             </div>
 
@@ -208,6 +113,17 @@ export default function Home() {
                   Provide your personal information and details about your state
                   of origin.
                 </p>
+                <div className="mt-4 bg-purple-50 p-3 rounded-md w-full">
+                  <h4 className="font-medium text-purple-700 mb-1">
+                    Required Information:
+                  </h4>
+                  <ul className="text-sm text-gray-600 list-disc pl-5">
+                    <li>Full legal name</li>
+                    <li>Date of birth</li>
+                    <li>State, local government, and community of origin</li>
+                    <li>Current address</li>
+                  </ul>
+                </div>
               </div>
             </div>
 
@@ -220,8 +136,19 @@ export default function Home() {
                 <h3 className="text-xl font-semibold mb-2">Upload Documents</h3>
                 <p className="text-gray-600 text-center md:text-left">
                   Upload supporting documents to verify your identity and
-                  connection to your state.
+                  connection to your state of origin.
                 </p>
+                <div className="mt-4 bg-purple-50 p-3 rounded-md w-full">
+                  <h4 className="font-medium text-purple-700 mb-1">
+                    Required Documents:
+                  </h4>
+                  <ul className="text-sm text-gray-600 list-disc pl-5">
+                    <li>Valid ID card (National ID, Voter's card, etc.)</li>
+                    <li>Passport photograph</li>
+                    <li>Proof of address</li>
+                    <li>Birth certificate or declaration of age</li>
+                  </ul>
+                </div>
               </div>
             </div>
 
@@ -234,6 +161,17 @@ export default function Home() {
                 Once approved, download your certificate or have it sent to your
                 email.
               </p>
+              <div className="mt-4 bg-purple-50 p-3 rounded-md w-full">
+                <h4 className="font-medium text-purple-700 mb-1">
+                  What to Expect:
+                </h4>
+                <ul className="text-sm text-gray-600 list-disc pl-5">
+                  <li>Processing time: 2-3 business days</li>
+                  <li>Email notification upon approval</li>
+                  <li>Digital certificate download</li>
+                  <li>Option to request physical copy</li>
+                </ul>
+              </div>
             </div>
           </div>
 
@@ -243,186 +181,257 @@ export default function Home() {
               size="lg"
               className="bg-purple-600 hover:bg-purple-700"
             >
-              <Link href="/register">Start Application</Link>
+              <Link href="/register">Start Your Application</Link>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* About Section */}
-      <section className="py-16 bg-white">
+      {/* Requirements Section */}
+      <section id="requirements" className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="md:w-1/2 relative order-2 md:order-1">
-              <div className="absolute -top-6 -left-6 w-24 h-24 bg-purple-200 rounded-full opacity-50"></div>
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-indigo-200 rounded-full opacity-50"></div>
-              <div className="relative bg-white p-4 rounded-lg shadow-lg">
-                <Image
-                  src="/placeholder.svg?height=400&width=500"
-                  alt="About us illustration"
-                  width={500}
-                  height={400}
-                  className="rounded-md"
-                />
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">
+              Application Requirements
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Make sure you have all the necessary documents and information
+              before starting your application
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="flex items-center mb-4">
+                <UserPlus className="h-6 w-6 text-purple-600 mr-3" />
+                <h3 className="text-xl font-semibold">Personal Information</h3>
               </div>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>
+                    Full legal name (as it appears on official documents)
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Date and place of birth</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Gender</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Current residential address</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Contact phone number</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Email address</span>
+                </li>
+              </ul>
             </div>
-            <div className="md:w-1/2 space-y-6 order-1 md:order-2">
-              <h2 className="text-3xl font-bold">About Our Service</h2>
-              <p className="text-gray-600">
-                The State of Origin Certificate Portal offers a streamlined
-                procedure for acquiring the official State of Origin
-                Certificate. Our mission is to empower individuals by preserving
-                and commemorating their distinct identities, thereby showcasing
-                the rich heritage of our state.
-              </p>
-              <p className="text-gray-600">
-                Recognizing the significance of this document in establishing
-                one's roots and local connections, we have developed a
-                user-friendly platform designed to enhance the application
-                process, ensuring it is efficient, secure, and devoid of
-                unnecessary complications.
-              </p>
-              <Button asChild className="bg-purple-600 hover:bg-purple-700">
-                <Link href="/about">Learn More</Link>
-              </Button>
+
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="flex items-center mb-4">
+                <ClipboardList className="h-6 w-6 text-purple-600 mr-3" />
+                <h3 className="text-xl font-semibold">Origin Information</h3>
+              </div>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>State of origin</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Local government area</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Community/Village/Town</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Father's full name and place of origin</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Mother's full name and place of origin</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Family history in the community (if available)</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="flex items-center mb-4">
+                <FileCheck className="h-6 w-6 text-purple-600 mr-3" />
+                <h3 className="text-xl font-semibold">Required Documents</h3>
+              </div>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>
+                    Valid government-issued ID (National ID, Driver's License,
+                    Voter's Card, etc.)
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>
+                    Recent passport photograph (taken within the last 6 months)
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Birth certificate or sworn declaration of age</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Proof of address (utility bill, etc.)</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>
+                    Local government identification letter (if available)
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="flex items-center mb-4">
+                <AlertCircle className="h-6 w-6 text-purple-600 mr-3" />
+                <h3 className="text-xl font-semibold">Important Notes</h3>
+              </div>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <HelpCircle className="h-5 w-5 text-amber-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>All documents must be clear and legible</span>
+                </li>
+                <li className="flex items-start">
+                  <HelpCircle className="h-5 w-5 text-amber-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>File size should not exceed 5MB per document</span>
+                </li>
+                <li className="flex items-start">
+                  <HelpCircle className="h-5 w-5 text-amber-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Accepted file formats: JPG, PNG, PDF</span>
+                </li>
+                <li className="flex items-start">
+                  <HelpCircle className="h-5 w-5 text-amber-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>
+                    False information may lead to application rejection
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <HelpCircle className="h-5 w-5 text-amber-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>
+                    Processing time may vary based on verification requirements
+                  </span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">
               Frequently Asked Questions
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Find answers to common questions about our State of Origin
-              Certificate process
+              Find answers to common questions about the application process
             </p>
           </div>
 
           <div className="max-w-3xl mx-auto space-y-4">
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <button className="flex justify-between items-center w-full text-left">
-                <h3 className="text-lg font-medium">
-                  How do I apply for my State of Origin Certificate?
-                </h3>
-                <ChevronDown className="h-5 w-5 text-purple-600" />
-              </button>
-              <div className="mt-2 text-gray-600">
-                <p>
-                  To apply, create an account on our platform, fill in your
-                  personal details, upload the required documents, and submit
-                  your application. Our team will review it and process your
-                  certificate.
-                </p>
-              </div>
+            <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+              <h3 className="text-lg font-medium mb-2">
+                How long does the application process take?
+              </h3>
+              <p className="text-gray-600">
+                The standard processing time is 2-3 business days after all
+                required documents have been submitted and verified. Complex
+                cases may take longer.
+              </p>
             </div>
 
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <button className="flex justify-between items-center w-full text-left">
-                <h3 className="text-lg font-medium">
-                  After login, what is next?
-                </h3>
-                <ChevronDown className="h-5 w-5 text-purple-600" />
-              </button>
-              <div className="mt-2 text-gray-600">
-                <p>
-                  After logging in, you'll be directed to your dashboard where
-                  you can start a new application, check the status of existing
-                  applications, and view or download your certificates.
-                </p>
-              </div>
+            <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+              <h3 className="text-lg font-medium mb-2">
+                Can I apply on behalf of someone else?
+              </h3>
+              <p className="text-gray-600">
+                Yes, you can apply on behalf of a family member, but you will
+                need to provide additional documentation proving your
+                relationship and authorization.
+              </p>
             </div>
 
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <button className="flex justify-between items-center w-full text-left">
-                <h3 className="text-lg font-medium">
-                  How long should I wait before getting my certificate?
-                </h3>
-                <ChevronDown className="h-5 w-5 text-purple-600" />
-              </button>
-              <div className="mt-2 text-gray-600">
-                <p>
-                  The processing time is typically 2-3 business days after all
-                  required documents have been submitted and verified. You'll
-                  receive an email notification once your certificate is ready.
-                </p>
-              </div>
+            <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+              <h3 className="text-lg font-medium mb-2">
+                What if I don't have all the required documents?
+              </h3>
+              <p className="text-gray-600">
+                If you're missing certain documents, please contact our support
+                team. In some cases, alternative documentation may be accepted,
+                or we can guide you on how to obtain the necessary documents.
+              </p>
             </div>
-          </div>
 
-          <div className="text-center mt-8">
-            <Button
-              variant="outline"
-              className="border-purple-600 text-purple-600 hover:bg-purple-50"
-            >
-              View All FAQs
-            </Button>
+            <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+              <h3 className="text-lg font-medium mb-2">
+                Is there an application fee?
+              </h3>
+              <p className="text-gray-600">
+                Yes, there is a processing fee for certificate applications. The
+                current fee structure is available on the payment page during
+                the application process.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+              <h3 className="text-lg font-medium mb-2">
+                Can I track my application status?
+              </h3>
+              <p className="text-gray-600">
+                Yes, once you've submitted your application, you can track its
+                status through your account dashboard. You'll also receive email
+                notifications at key stages of the process.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Contact Us</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Have questions or need assistance? Reach out to our support team
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="bg-purple-50 p-6 rounded-lg border border-purple-100 flex flex-col items-center text-center">
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                <MessageCircle className="h-6 w-6 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Chat with us</h3>
-              <p className="text-gray-600 mb-4">
-                Get instant support through our live chat service
-              </p>
-              <Button
-                variant="outline"
-                className="mt-auto border-purple-600 text-purple-600 hover:bg-purple-50"
-              >
-                Start Chat
-              </Button>
-            </div>
-
-            <div className="bg-indigo-50 p-6 rounded-lg border border-indigo-100 flex flex-col items-center text-center">
-              <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
-                <Mail className="h-6 w-6 text-indigo-600" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Email us</h3>
-              <p className="text-gray-600 mb-4">
-                Send us an email and we'll respond within 24 hours
-              </p>
-              <Button
-                variant="outline"
-                className="mt-auto border-indigo-600 text-indigo-600 hover:bg-indigo-50"
-              >
-                Send Email
-              </Button>
-            </div>
-
-            <div className="bg-violet-50 p-6 rounded-lg border border-violet-100 flex flex-col items-center text-center">
-              <div className="w-12 h-12 bg-violet-100 rounded-full flex items-center justify-center mb-4">
-                <Phone className="h-6 w-6 text-violet-600" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Call us</h3>
-              <p className="text-gray-600 mb-4">
-                Speak directly with our support team
-              </p>
-              <Button
-                variant="outline"
-                className="mt-auto border-violet-600 text-violet-600 hover:bg-violet-50"
-              >
-                Call Now
-              </Button>
-            </div>
+      {/* CTA Section */}
+      <section className="py-16 bg-purple-600 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-4">Ready to Apply?</h2>
+          <p className="max-w-2xl mx-auto mb-8">
+            Start your application today and get your State of Origin
+            Certificate quickly and easily
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" variant="secondary">
+              <Link href="/register">Apply Now</Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="border-white text-white hover:bg-purple-700"
+            >
+              <Link href="/contact">Need Help?</Link>
+            </Button>
           </div>
         </div>
       </section>
