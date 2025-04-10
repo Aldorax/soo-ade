@@ -2,43 +2,44 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./database/dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  password      String
-  firstName     String
-  middleName    String?
-  lastName      String
-  sex           String
-  dateOfBirth   DateTime
-  phone         String
-  nationality   String    @default("Nigeria")
-  role          Role      @default(USER)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  application   Application?
+  id          String       @id @default(cuid())
+  email       String       @unique
+  password    String
+  firstName   String
+  middleName  String?
+  lastName    String
+  sex         String
+  dateOfBirth DateTime
+  phone       String
+  nationality String       @default("Nigeria")
+  role        Role         @default(USER)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  application Application?
 }
 
 model Application {
-  id                String    @id @default(cuid())
-  certificateNumber String?   @unique
-  status            Status    @default(PENDING)
-  userId            String    @unique
-  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String     @id @default(cuid())
+  certificateNumber String?    @unique
+  status            Status     @default(PENDING)
+  userId            String     @unique
+  user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   localGovernment   String
   stateOfOrigin     String
   address           String
   documents         Document[]
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
   approvedAt        DateTime?
   approvedBy        String?
   rejectionReason   String?
@@ -71,4 +72,3 @@ enum Status {
   APPROVED
   REJECTED
 }
-
