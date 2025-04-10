@@ -1,3 +1,4 @@
+// lib/auth.ts
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { compare, hash } from "bcryptjs";
 import type { NextAuthOptions } from "next-auth";
@@ -8,10 +9,13 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60, // 24 hours
   },
   pages: {
     signIn: "/login",
     error: "/auth/error",
+    newUser: "/register",
   },
   providers: [
     CredentialsProvider({
@@ -23,34 +27,31 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           console.log("Missing credentials");
-          return null;
+          throw new Error("Email and password are required");
         }
 
         try {
-          console.log("Looking up user:", credentials.email);
           const user = await db.user.findUnique({
-            where: {
-              email: credentials.email,
-            },
+            where: { email: credentials.email },
           });
 
           if (!user) {
-            console.log("User not found");
-            return null;
+            throw new Error("User not found");
           }
 
-          console.log("Found user, checking password");
+          if (!user.password) {
+            throw new Error("User has no password set");
+          }
+
           const isPasswordValid = await compare(
             credentials.password,
             user.password
           );
 
           if (!isPasswordValid) {
-            console.log("Password invalid");
-            return null;
+            throw new Error("Invalid password");
           }
 
-          console.log("Authentication successful, returning user");
           return {
             id: user.id,
             email: user.email,
@@ -59,30 +60,40 @@ export const authOptions: NextAuthOptions = {
           };
         } catch (error) {
           console.error("Auth error:", error);
-          return null;
+          throw error;
         }
       },
     }),
   ],
   callbacks: {
-    async session({ session, token }) {
-      if (token && session.user) {
-        session.user.id = token.id as string;
-        session.user.name = token.name as string;
-        session.user.email = token.email as string;
-        session.user.role = token.role as string;
-      }
-      return session;
-    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = user.role as string;
+        token.role = user.role;
       }
       return token;
     },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id;
+        session.user.role = token.role;
+      }
+      return session;
+    },
   },
-  debug: true, // Enable debug mode to see more detailed logs
+  debug: process.env.NODE_ENV === "development",
+  secret: process.env.NEXTAUTH_SECRET,
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
 };
 
 export async function hashPassword(password: string) {
