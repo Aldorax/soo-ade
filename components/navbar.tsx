@@ -33,7 +33,7 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Award className="h-6 w-6 text-purple-600" />
+          <Award className="h-6 w-6 text-green-600" />
           <span className="font-bold text-xl">StateOrigin</span>
         </div>
 
@@ -53,40 +53,40 @@ export function Navbar() {
         <nav className="hidden md:flex items-center gap-6">
           <Link
             href="/"
-            className={`text-sm font-medium hover:text-purple-600 transition-colors ${
-              pathname === "/" ? "text-purple-600" : ""
+            className={`text-sm font-medium hover:text-green-600 transition-colors ${
+              pathname === "/" ? "text-green-600" : ""
             }`}
           >
             Home
           </Link>
           <Link
             href="/about"
-            className={`text-sm font-medium hover:text-purple-600 transition-colors ${
-              pathname === "/about" ? "text-purple-600" : ""
+            className={`text-sm font-medium hover:text-green-600 transition-colors ${
+              pathname === "/about" ? "text-green-600" : ""
             }`}
           >
             About
           </Link>
           <Link
             href="/how-to-apply"
-            className={`text-sm font-medium hover:text-purple-600 transition-colors ${
-              pathname === "/how-to-apply" ? "text-purple-600" : ""
+            className={`text-sm font-medium hover:text-green-600 transition-colors ${
+              pathname === "/how-to-apply" ? "text-green-600" : ""
             }`}
           >
             How to Apply
           </Link>
           <Link
             href="/verify"
-            className={`text-sm font-medium hover:text-purple-600 transition-colors ${
-              pathname === "/verify" ? "text-purple-600" : ""
+            className={`text-sm font-medium hover:text-green-600 transition-colors ${
+              pathname === "/verify" ? "text-green-600" : ""
             }`}
           >
             Verify Certificate
           </Link>
           <Link
             href="/contact"
-            className={`text-sm font-medium hover:text-purple-600 transition-colors ${
-              pathname === "/contact" ? "text-purple-600" : ""
+            className={`text-sm font-medium hover:text-green-600 transition-colors ${
+              pathname === "/contact" ? "text-green-600" : ""
             }`}
           >
             Contact
@@ -96,9 +96,9 @@ export function Navbar() {
           {isLoggedIn && (
             <Link
               href={isAdmin ? "/admin" : "/dashboard"}
-              className={`text-sm font-medium hover:text-purple-600 transition-colors ${
+              className={`text-sm font-medium hover:text-green-600 transition-colors ${
                 pathname === (isAdmin ? "/admin" : "/dashboard")
-                  ? "text-purple-600"
+                  ? "text-green-600"
                   : ""
               }`}
             >
@@ -112,7 +112,7 @@ export function Navbar() {
             <Button
               asChild
               variant="outline"
-              className="border-purple-600 text-purple-600 hover:bg-purple-50"
+              className="border-green-600 text-green-600 hover:bg-green-50"
             >
               <Link href="/api/auth/signout">Logout</Link>
             </Button>
@@ -120,11 +120,11 @@ export function Navbar() {
             <>
               <Link
                 href="/login"
-                className="text-sm font-medium hover:text-purple-600 transition-colors"
+                className="text-sm font-medium hover:text-green-600 transition-colors"
               >
                 Login
               </Link>
-              <Button asChild className="bg-purple-600 hover:bg-purple-700">
+              <Button asChild className="bg-green-600 hover:bg-green-700">
                 <Link href="/register">Get Started</Link>
               </Button>
             </>
@@ -138,8 +138,8 @@ export function Navbar() {
           <nav className="flex flex-col space-y-4">
             <Link
               href="/"
-              className={`text-sm font-medium hover:text-purple-600 transition-colors ${
-                pathname === "/" ? "text-purple-600" : ""
+              className={`text-sm font-medium hover:text-green-600 transition-colors ${
+                pathname === "/" ? "text-green-600" : ""
               }`}
               onClick={() => setIsMenuOpen(false)}
             >
@@ -147,8 +147,8 @@ export function Navbar() {
             </Link>
             <Link
               href="/about"
-              className={`text-sm font-medium hover:text-purple-600 transition-colors ${
-                pathname === "/about" ? "text-purple-600" : ""
+              className={`text-sm font-medium hover:text-green-600 transition-colors ${
+                pathname === "/about" ? "text-green-600" : ""
               }`}
               onClick={() => setIsMenuOpen(false)}
             >
@@ -156,8 +156,8 @@ export function Navbar() {
             </Link>
             <Link
               href="/how-to-apply"
-              className={`text-sm font-medium hover:text-purple-600 transition-colors ${
-                pathname === "/how-to-apply" ? "text-purple-600" : ""
+              className={`text-sm font-medium hover:text-green-600 transition-colors ${
+                pathname === "/how-to-apply" ? "text-green-600" : ""
               }`}
               onClick={() => setIsMenuOpen(false)}
             >
@@ -165,8 +165,8 @@ export function Navbar() {
             </Link>
             <Link
               href="/verify"
-              className={`text-sm font-medium hover:text-purple-600 transition-colors ${
-                pathname === "/verify" ? "text-purple-600" : ""
+              className={`text-sm font-medium hover:text-green-600 transition-colors ${
+                pathname === "/verify" ? "text-green-600" : ""
               }`}
               onClick={() => setIsMenuOpen(false)}
             >
@@ -174,8 +174,8 @@ export function Navbar() {
             </Link>
             <Link
               href="/contact"
-              className={`text-sm font-medium hover:text-purple-600 transition-colors ${
-                pathname === "/contact" ? "text-purple-600" : ""
+              className={`text-sm font-medium hover:text-green-600 transition-colors ${
+                pathname === "/contact" ? "text-green-600" : ""
               }`}
               onClick={() => setIsMenuOpen(false)}
             >
@@ -186,9 +186,9 @@ export function Navbar() {
             {isLoggedIn && (
               <Link
                 href={isAdmin ? "/admin" : "/dashboard"}
-                className={`text-sm font-medium hover:text-purple-600 transition-colors ${
+                className={`text-sm font-medium hover:text-green-600 transition-colors ${
                   pathname === (isAdmin ? "/admin" : "/dashboard")
-                    ? "text-purple-600"
+                    ? "text-green-600"
                     : ""
                 }`}
                 onClick={() => setIsMenuOpen(false)}
@@ -201,7 +201,7 @@ export function Navbar() {
               <Button
                 asChild
                 variant="outline"
-                className="border-purple-600 text-purple-600 hover:bg-purple-50 w-full"
+                className="border-green-600 text-green-600 hover:bg-green-50 w-full"
               >
                 <Link
                   href="/api/auth/signout"
@@ -215,7 +215,7 @@ export function Navbar() {
                 <Button
                   asChild
                   variant="outline"
-                  className="border-purple-600 text-purple-600 hover:bg-purple-50 w-full"
+                  className="border-green-600 text-green-600 hover:bg-green-50 w-full"
                 >
                   <Link href="/login" onClick={() => setIsMenuOpen(false)}>
                     Login
@@ -223,7 +223,7 @@ export function Navbar() {
                 </Button>
                 <Button
                   asChild
-                  className="bg-purple-600 hover:bg-purple-700 w-full"
+                  className="bg-green-600 hover:bg-green-700 w-full"
                 >
                   <Link href="/register" onClick={() => setIsMenuOpen(false)}>
                     Get Started

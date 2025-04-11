@@ -1,19 +1,25 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Award, CheckCircle, Users, Building, Globe } from "lucide-react";
-import { Navbar } from "@/components/navbar";
+import Image from "next/image"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Award, CheckCircle, Users, Globe } from 'lucide-react'
 
 export default function AboutPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* <Navbar /> */}
-
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-purple-50 to-indigo-50 py-16 md:py-24">
+      <section className="bg-gradient-to-br from-green-50 to-emerald-50 py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="md:w-1/2 space-y-6">
+              <div className="flex items-center gap-3 mb-2">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Coat_of_arms_of_Nigeria.svg/240px-Coat_of_arms_of_Nigeria.svg.png"
+                  alt="Nigerian Coat of Arms"
+                  width={40}
+                  height={40}
+                />
+                <span className="text-sm text-gray-600 font-medium">Federal Republic of Nigeria</span>
+              </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
                 About Our Service
               </h1>
@@ -23,15 +29,13 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="md:w-1/2 relative">
-              <div className="absolute -top-6 -left-6 w-24 h-24 bg-purple-200 rounded-full opacity-50"></div>
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-indigo-200 rounded-full opacity-50"></div>
+              <div className="absolute -top-6 -left-6 w-24 h-24 bg-green-200 rounded-full opacity-50"></div>
+              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-emerald-200 rounded-full opacity-50"></div>
               <div className="relative bg-white p-4 rounded-lg shadow-lg">
-                <Image
-                  src="/placeholder.svg?height=400&width=500"
-                  alt="About us illustration"
-                  width={500}
-                  height={400}
-                  className="rounded-md"
+                <img
+                  src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                  alt="Nigerian government building"
+                  className="rounded-md w-full h-auto object-cover aspect-[4/3]"
                 />
               </div>
             </div>
@@ -51,9 +55,9 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-purple-50 p-6 rounded-lg border border-purple-100">
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle className="h-6 w-6 text-purple-600" />
+            <div className="bg-green-50 p-6 rounded-lg border border-green-100">
+              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                <CheckCircle className="h-6 w-6 text-green-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2">
                 Streamlined Process
@@ -64,9 +68,9 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="bg-indigo-50 p-6 rounded-lg border border-indigo-100">
-              <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
-                <Users className="h-6 w-6 text-indigo-600" />
+            <div className="bg-emerald-50 p-6 rounded-lg border border-emerald-100">
+              <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
+                <Users className="h-6 w-6 text-emerald-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2">
                 Cultural Preservation
@@ -77,9 +81,9 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="bg-violet-50 p-6 rounded-lg border border-violet-100">
-              <div className="w-12 h-12 bg-violet-100 rounded-full flex items-center justify-center mb-4">
-                <Globe className="h-6 w-6 text-violet-600" />
+            <div className="bg-teal-50 p-6 rounded-lg border border-teal-100">
+              <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mb-4">
+                <Globe className="h-6 w-6 text-teal-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Accessibility</h3>
               <p className="text-gray-600">
@@ -96,15 +100,13 @@ export default function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="md:w-1/2 relative order-2 md:order-1">
-              <div className="absolute -top-6 -left-6 w-24 h-24 bg-purple-200 rounded-full opacity-50"></div>
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-indigo-200 rounded-full opacity-50"></div>
+              <div className="absolute -top-6 -left-6 w-24 h-24 bg-green-200 rounded-full opacity-50"></div>
+              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-emerald-200 rounded-full opacity-50"></div>
               <div className="relative bg-white p-4 rounded-lg shadow-lg">
-                <Image
-                  src="/placeholder.svg?height=400&width=500"
-                  alt="Our history illustration"
-                  width={500}
-                  height={400}
-                  className="rounded-md"
+                <img
+                  src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                  alt="Nigerian professionals in meeting"
+                  className="rounded-md w-full h-auto object-cover aspect-[4/3]"
                 />
               </div>
             </div>
@@ -134,123 +136,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Our Team</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Meet the dedicated professionals working to make your certificate
-              process smooth and efficient
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-gray-50 p-6 rounded-lg text-center">
-              <div className="w-24 h-24 bg-purple-100 rounded-full mx-auto mb-4 overflow-hidden">
-                <Image
-                  src="/placeholder.svg?height=96&width=96"
-                  alt="Team member"
-                  width={96}
-                  height={96}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-semibold mb-1">John Doe</h3>
-              <p className="text-purple-600 mb-3">Director</p>
-              <p className="text-gray-600 text-sm">
-                With over 15 years of experience in public administration, John
-                leads our team with vision and expertise.
-              </p>
-            </div>
-
-            <div className="bg-gray-50 p-6 rounded-lg text-center">
-              <div className="w-24 h-24 bg-purple-100 rounded-full mx-auto mb-4 overflow-hidden">
-                <Image
-                  src="/placeholder.svg?height=96&width=96"
-                  alt="Team member"
-                  width={96}
-                  height={96}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-semibold mb-1">Jane Smith</h3>
-              <p className="text-purple-600 mb-3">Operations Manager</p>
-              <p className="text-gray-600 text-sm">
-                Jane ensures our day-to-day operations run smoothly and
-                efficiently to serve our users better.
-              </p>
-            </div>
-
-            <div className="bg-gray-50 p-6 rounded-lg text-center">
-              <div className="w-24 h-24 bg-purple-100 rounded-full mx-auto mb-4 overflow-hidden">
-                <Image
-                  src="/placeholder.svg?height=96&width=96"
-                  alt="Team member"
-                  width={96}
-                  height={96}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-semibold mb-1">Michael Johnson</h3>
-              <p className="text-purple-600 mb-3">Technical Lead</p>
-              <p className="text-gray-600 text-sm">
-                Michael oversees our technical infrastructure, ensuring the
-                platform is secure, reliable, and user-friendly.
-              </p>
-            </div>
-
-            <div className="bg-gray-50 p-6 rounded-lg text-center">
-              <div className="w-24 h-24 bg-purple-100 rounded-full mx-auto mb-4 overflow-hidden">
-                <Image
-                  src="/placeholder.svg?height=96&width=96"
-                  alt="Team member"
-                  width={96}
-                  height={96}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-semibold mb-1">Sarah Williams</h3>
-              <p className="text-purple-600 mb-3">Customer Support Lead</p>
-              <p className="text-gray-600 text-sm">
-                Sarah leads our customer support team, ensuring all user queries
-                and concerns are addressed promptly.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Partners Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Our Partners</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              We collaborate with government agencies and organizations to
-              provide a seamless service
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="bg-white p-6 rounded-lg flex items-center justify-center h-24">
-              <Building className="h-12 w-12 text-gray-400" />
-            </div>
-            <div className="bg-white p-6 rounded-lg flex items-center justify-center h-24">
-              <Building className="h-12 w-12 text-gray-400" />
-            </div>
-            <div className="bg-white p-6 rounded-lg flex items-center justify-center h-24">
-              <Building className="h-12 w-12 text-gray-400" />
-            </div>
-            <div className="bg-white p-6 rounded-lg flex items-center justify-center h-24">
-              <Building className="h-12 w-12 text-gray-400" />
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
-      <section className="py-16 bg-purple-600 text-white">
+      <section className="py-16 bg-green-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
           <p className="max-w-2xl mx-auto mb-8">
@@ -265,7 +152,7 @@ export default function AboutPage() {
               asChild
               size="lg"
               variant="outline"
-              className="border-white text-white hover:bg-purple-700"
+              className="border-white text-white hover:bg-green-700"
             >
               <Link href="/contact">Contact Us</Link>
             </Button>
@@ -279,7 +166,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Award className="h-6 w-6 text-purple-400" />
+                <Award className="h-6 w-6 text-green-400" />
                 <span className="font-bold text-xl">StateOrigin</span>
               </div>
               <p className="text-gray-400 mb-4">
@@ -434,5 +321,5 @@ export default function AboutPage() {
         </div>
       </footer>
     </div>
-  );
+  )
 }

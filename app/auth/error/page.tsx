@@ -51,7 +51,7 @@ export default function AuthErrorPage() {
           <Button asChild variant="outline">
             <Link href="/login">Back to Login</Link>
           </Button>
-          <Button asChild className="bg-purple-600 hover:bg-purple-700">
+          <Button asChild className="bg-green-600 hover:bg-green-700">
             <Link href="/">Go to Homepage</Link>
           </Button>
         </CardFooter>

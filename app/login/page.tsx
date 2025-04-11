@@ -124,7 +124,7 @@ export default function LoginPage() {
                 <Label htmlFor="password">Password</Label>
                 <Link
                   href="/forgot-password"
-                  className="text-sm text-purple-500 hover:underline"
+                  className="text-sm text-green-500 hover:underline"
                 >
                   Forgot password?
                 </Link>
@@ -144,7 +144,7 @@ export default function LoginPage() {
 
             <Button
               type="submit"
-              className="w-full bg-purple-600 hover:bg-purple-700"
+              className="w-full bg-green-600 hover:bg-green-700"
               disabled={isLoading}
             >
               {isLoading ? "Logging in..." : "Login"}
@@ -154,7 +154,7 @@ export default function LoginPage() {
         <CardFooter className="flex justify-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{" "}
-            <Link href="/register" className="text-purple-500 hover:underline">
+            <Link href="/register" className="text-green-500 hover:underline">
               Sign up
             </Link>
           </p>
