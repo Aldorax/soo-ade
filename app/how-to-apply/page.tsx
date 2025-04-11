@@ -44,8 +44,8 @@ export default function HowToApplyPage() {
               <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-emerald-200 rounded-full opacity-50"></div>
               <div className="relative bg-white p-4 rounded-lg shadow-lg">
                 <img
-                  src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                  alt="Application process illustration"
+                  src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                  alt="Person filling application forms"
                   className="rounded-md w-full h-auto object-cover aspect-[4/3]"
                 />
               </div>
@@ -466,7 +466,7 @@ export default function HowToApplyPage() {
               </ul>
             </div>
 
-            <div>
+            {/* <div>
               <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
               <address className="not-italic text-gray-400">
                 <p className="mb-2">State Government Office</p>
@@ -474,7 +474,7 @@ export default function HowToApplyPage() {
                 <p className="mb-4">+234 803 456 7890 • +234 905 678 1234</p>
                 <p>Open Hours: Mon - Fri, 8:00 am - 4:00 pm</p>
               </address>
-            </div>
+            </div> */}
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
