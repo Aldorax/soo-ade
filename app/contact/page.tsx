@@ -546,7 +546,7 @@ export default function ContactPage() {
               </ul>
             </div>
 
-            <div>
+            {/* <div>
               <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
               <address className="not-italic text-gray-400">
                 <p className="mb-2">State Government Office</p>
@@ -556,7 +556,7 @@ export default function ContactPage() {
                 <p className="mb-4">+234 803 456 7890 • +234 905 678 1234</p>
                 <p>Open Hours: Mon - Fri, 8:00 am - 4:00 pm</p>
               </address>
-            </div>
+            </div> */}
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
