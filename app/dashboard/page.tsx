@@ -37,8 +37,12 @@ export default function DashboardPage() {
       router.push("/login");
     }
 
-    if (status === "authenticated" && session?.user?.id) {
-      fetchApplication();
+    if (status === "authenticated") {
+      if (session?.user?.role !== "ADMIN") {
+        router.push("/admin");
+      } else {
+        fetchApplication();
+      }
     }
   }, [status, session, router]);
 
