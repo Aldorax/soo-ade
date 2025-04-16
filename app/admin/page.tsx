@@ -1,35 +1,18 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { DashboardHeader } from "@/components/dashboard-header";
-import { DashboardShell } from "@/components/dashboard-shell";
-import {
-  getAllApplications,
-  approveApplication,
-  rejectApplication,
-} from "@/app/actions/admin";
+import { useState, useEffect } from "react"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { DashboardHeader } from "@/components/dashboard-header"
+import { DashboardShell } from "@/components/dashboard-shell"
+import { getAllApplications, approveApplication, rejectApplication } from "@/app/actions/admin"
 import {
   Dialog,
   DialogContent,
@@ -38,86 +21,85 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
-import { CheckCircle, Clock, Search, X } from "lucide-react";
+} from "@/components/ui/dialog"
+import { Textarea } from "@/components/ui/textarea"
+import { CheckCircle, Clock, Search, X, Wallet } from "lucide-react"
 
 export default function AdminDashboardPage() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const [applications, setApplications] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [rejectionReason, setRejectionReason] = useState("");
-  const [selectedApplication, setSelectedApplication] = useState<any>(null);
+  const { data: session, status } = useSession()
+  const router = useRouter()
+  const [applications, setApplications] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [rejectionReason, setRejectionReason] = useState("")
+  const [selectedApplication, setSelectedApplication] = useState<any>(null)
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/login");
+      router.push("/login")
     }
 
     if (status === "authenticated") {
       if (session?.user?.role !== "ADMIN") {
-        router.push("/dashboard");
+        router.push("/dashboard")
       } else {
-        fetchApplications();
+        fetchApplications()
       }
     }
-  }, [status, session, router]);
+  }, [status, session, router])
 
   const fetchApplications = async () => {
     try {
-      const result = await getAllApplications();
-      if (result.success) {
-        setApplications(result.applications);
+      const result = await getAllApplications()
+      if (result.success && result.applications) {
+        setApplications(result.applications)
+      } else {
+        setApplications([])
       }
     } catch (error) {
-      console.error("Error fetching applications:", error);
+      console.error("Error fetching applications:", error)
+      setApplications([])
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleApprove = async (applicationId: string) => {
     try {
-      const result = await approveApplication(applicationId);
+      const result = await approveApplication(applicationId)
       if (result.success) {
-        fetchApplications();
+        fetchApplications()
       }
     } catch (error) {
-      console.error("Error approving application:", error);
+      console.error("Error approving application:", error)
     }
-  };
+  }
 
   const handleReject = async (applicationId: string) => {
     try {
-      const result = await rejectApplication(applicationId, rejectionReason);
+      const result = await rejectApplication(applicationId, rejectionReason)
       if (result.success) {
-        setRejectionReason("");
-        setSelectedApplication(null);
-        fetchApplications();
+        setRejectionReason("")
+        setSelectedApplication(null)
+        fetchApplications()
       }
     } catch (error) {
-      console.error("Error rejecting application:", error);
+      console.error("Error rejecting application:", error)
     }
-  };
+  }
 
   const filteredApplications = applications.filter(
     (app) =>
       app.user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       app.user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       app.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (app.certificateNumber &&
-        app.certificateNumber.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+      (app.certificateNumber && app.certificateNumber.toLowerCase().includes(searchTerm.toLowerCase())),
+  )
 
   if (status === "loading" || loading) {
     return (
       <DashboardShell>
-        <DashboardHeader
-          heading="Admin Dashboard"
-          text="Manage State of Origin Certificate applications"
-        />
+        <DashboardHeader heading="Admin Dashboard" text="Manage State of Origin Certificate applications" />
         <div className="grid gap-4">
           <Card>
             <CardContent className="py-8">
@@ -128,15 +110,17 @@ export default function AdminDashboardPage() {
           </Card>
         </div>
       </DashboardShell>
-    );
+    )
   }
 
   return (
     <DashboardShell>
-      <DashboardHeader
-        heading="Admin Dashboard"
-        text="Manage State of Origin Certificate applications"
-      />
+      <DashboardHeader heading="Admin Dashboard" text="Manage State of Origin Certificate applications">
+        <Button variant="outline" onClick={() => router.push("/admin/wallet")} className="flex items-center gap-2">
+          <Wallet className="h-4 w-4" />
+          <span>Wallet</span>
+        </Button>
+      </DashboardHeader>
 
       <Tabs defaultValue="all" className="space-y-4">
         <TabsList>
@@ -144,6 +128,8 @@ export default function AdminDashboardPage() {
           <TabsTrigger value="pending">Pending</TabsTrigger>
           <TabsTrigger value="approved">Approved</TabsTrigger>
           <TabsTrigger value="rejected">Rejected</TabsTrigger>
+          <TabsTrigger value="paid">Paid</TabsTrigger>
+          <TabsTrigger value="unpaid">Unpaid</TabsTrigger>
         </TabsList>
 
         <div className="flex items-center space-x-2">
@@ -160,9 +146,7 @@ export default function AdminDashboardPage() {
           <Card>
             <CardHeader>
               <CardTitle>All Applications</CardTitle>
-              <CardDescription>
-                View and manage all certificate applications
-              </CardDescription>
+              <CardDescription>View and manage all certificate applications</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
@@ -173,6 +157,7 @@ export default function AdminDashboardPage() {
                     <TableHead>State</TableHead>
                     <TableHead>LGA</TableHead>
                     <TableHead>Date</TableHead>
+                    <TableHead>Payment</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
@@ -180,21 +165,36 @@ export default function AdminDashboardPage() {
                 <TableBody>
                   {filteredApplications.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={7} className="text-center py-4">
+                      <TableCell colSpan={8} className="text-center py-4">
                         No applications found
                       </TableCell>
                     </TableRow>
                   ) : (
                     filteredApplications.map((app) => (
                       <TableRow key={app.id}>
-                        <TableCell className="font-medium">
-                          {app.id.substring(0, 8)}...
-                        </TableCell>
+                        <TableCell className="font-medium">{app.id.substring(0, 8)}...</TableCell>
                         <TableCell>{`${app.user.firstName} ${app.user.lastName}`}</TableCell>
                         <TableCell>{app.stateOfOrigin}</TableCell>
                         <TableCell>{app.localGovernment}</TableCell>
+                        <TableCell>{new Date(app.createdAt).toLocaleDateString()}</TableCell>
                         <TableCell>
-                          {new Date(app.createdAt).toLocaleDateString()}
+                          <Badge
+                            className={
+                              app.paymentStatus === "PAID"
+                                ? "bg-green-100 text-green-800 hover:bg-green-100"
+                                : "bg-red-100 text-red-800 hover:bg-red-100"
+                            }
+                          >
+                            {app.paymentStatus === "PAID" ? (
+                              <>
+                                <CheckCircle className="mr-1 h-3 w-3" /> PAID
+                              </>
+                            ) : (
+                              <>
+                                <X className="mr-1 h-3 w-3" /> UNPAID
+                              </>
+                            )}
+                          </Badge>
                         </TableCell>
                         <TableCell>
                           <Badge
@@ -202,19 +202,13 @@ export default function AdminDashboardPage() {
                               app.status === "APPROVED"
                                 ? "bg-green-100 text-green-800 hover:bg-green-100"
                                 : app.status === "REJECTED"
-                                ? "bg-red-100 text-red-800 hover:bg-red-100"
-                                : "bg-yellow-100 text-yellow-800 hover:bg-yellow-100"
+                                  ? "bg-red-100 text-red-800 hover:bg-red-100"
+                                  : "bg-yellow-100 text-yellow-800 hover:bg-yellow-100"
                             }
                           >
-                            {app.status === "APPROVED" && (
-                              <CheckCircle className="mr-1 h-3 w-3" />
-                            )}
-                            {app.status === "PENDING" && (
-                              <Clock className="mr-1 h-3 w-3" />
-                            )}
-                            {app.status === "REJECTED" && (
-                              <X className="mr-1 h-3 w-3" />
-                            )}
+                            {app.status === "APPROVED" && <CheckCircle className="mr-1 h-3 w-3" />}
+                            {app.status === "PENDING" && <Clock className="mr-1 h-3 w-3" />}
+                            {app.status === "REJECTED" && <X className="mr-1 h-3 w-3" />}
                             {app.status}
                           </Badge>
                         </TableCell>
@@ -223,13 +217,11 @@ export default function AdminDashboardPage() {
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() =>
-                                router.push(`/admin/applications/${app.id}`)
-                              }
+                              onClick={() => router.push(`/admin/applications/${app.id}`)}
                             >
                               View
                             </Button>
-                            {app.status === "PENDING" && (
+                            {app.status === "PENDING" && app.paymentStatus === "PAID" && (
                               <>
                                 <Button
                                   variant="outline"
@@ -245,35 +237,26 @@ export default function AdminDashboardPage() {
                                       variant="outline"
                                       size="sm"
                                       className="text-red-600 border-red-600 hover:bg-red-50"
-                                      onClick={() =>
-                                        setSelectedApplication(app)
-                                      }
+                                      onClick={() => setSelectedApplication(app)}
                                     >
                                       Reject
                                     </Button>
                                   </DialogTrigger>
                                   <DialogContent>
                                     <DialogHeader>
-                                      <DialogTitle>
-                                        Reject Application
-                                      </DialogTitle>
+                                      <DialogTitle>Reject Application</DialogTitle>
                                       <DialogDescription>
-                                        Please provide a reason for rejecting
-                                        this application.
+                                        Please provide a reason for rejecting this application.
                                       </DialogDescription>
                                     </DialogHeader>
                                     <div className="space-y-4 py-4">
                                       <div className="space-y-2">
-                                        <Label htmlFor="reason">
-                                          Reason for Rejection
-                                        </Label>
+                                        <Label htmlFor="reason">Reason for Rejection</Label>
                                         <Textarea
                                           id="reason"
                                           placeholder="Enter reason for rejection"
                                           value={rejectionReason}
-                                          onChange={(e) =>
-                                            setRejectionReason(e.target.value)
-                                          }
+                                          onChange={(e) => setRejectionReason(e.target.value)}
                                         />
                                       </div>
                                     </div>
@@ -281,17 +264,15 @@ export default function AdminDashboardPage() {
                                       <Button
                                         variant="outline"
                                         onClick={() => {
-                                          setRejectionReason("");
-                                          setSelectedApplication(null);
+                                          setRejectionReason("")
+                                          setSelectedApplication(null)
                                         }}
                                       >
                                         Cancel
                                       </Button>
                                       <Button
                                         className="bg-red-600 hover:bg-red-700"
-                                        onClick={() =>
-                                          handleReject(selectedApplication.id)
-                                        }
+                                        onClick={() => handleReject(selectedApplication.id)}
                                       >
                                         Reject Application
                                       </Button>
@@ -315,9 +296,7 @@ export default function AdminDashboardPage() {
           <Card>
             <CardHeader>
               <CardTitle>Pending Applications</CardTitle>
-              <CardDescription>
-                Applications awaiting review and approval
-              </CardDescription>
+              <CardDescription>Applications awaiting review and approval</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
@@ -328,15 +307,14 @@ export default function AdminDashboardPage() {
                     <TableHead>State</TableHead>
                     <TableHead>LGA</TableHead>
                     <TableHead>Date</TableHead>
+                    <TableHead>Payment</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredApplications.filter(
-                    (app) => app.status === "PENDING"
-                  ).length === 0 ? (
+                  {filteredApplications.filter((app) => app.status === "PENDING").length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={6} className="text-center py-4">
+                      <TableCell colSpan={7} className="text-center py-4">
                         No pending applications found
                       </TableCell>
                     </TableRow>
@@ -345,91 +323,99 @@ export default function AdminDashboardPage() {
                       .filter((app) => app.status === "PENDING")
                       .map((app) => (
                         <TableRow key={app.id}>
-                          <TableCell className="font-medium">
-                            {app.id.substring(0, 8)}...
-                          </TableCell>
+                          <TableCell className="font-medium">{app.id.substring(0, 8)}...</TableCell>
                           <TableCell>{`${app.user.firstName} ${app.user.lastName}`}</TableCell>
                           <TableCell>{app.stateOfOrigin}</TableCell>
                           <TableCell>{app.localGovernment}</TableCell>
+                          <TableCell>{new Date(app.createdAt).toLocaleDateString()}</TableCell>
                           <TableCell>
-                            {new Date(app.createdAt).toLocaleDateString()}
+                            <Badge
+                              className={
+                                app.paymentStatus === "PAID"
+                                  ? "bg-green-100 text-green-800 hover:bg-green-100"
+                                  : "bg-red-100 text-red-800 hover:bg-red-100"
+                              }
+                            >
+                              {app.paymentStatus === "PAID" ? (
+                                <>
+                                  <CheckCircle className="mr-1 h-3 w-3" /> PAID
+                                </>
+                              ) : (
+                                <>
+                                  <X className="mr-1 h-3 w-3" /> UNPAID
+                                </>
+                              )}
+                            </Badge>
                           </TableCell>
                           <TableCell>
                             <div className="flex space-x-2">
                               <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() =>
-                                  router.push(`/admin/applications/${app.id}`)
-                                }
+                                onClick={() => router.push(`/admin/applications/${app.id}`)}
                               >
                                 View
                               </Button>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className="text-green-600 border-green-600 hover:bg-green-50"
-                                onClick={() => handleApprove(app.id)}
-                              >
-                                Approve
-                              </Button>
-                              <Dialog>
-                                <DialogTrigger asChild>
+                              {app.paymentStatus === "PAID" && (
+                                <>
                                   <Button
                                     variant="outline"
                                     size="sm"
-                                    className="text-red-600 border-red-600 hover:bg-red-50"
-                                    onClick={() => setSelectedApplication(app)}
+                                    className="text-green-600 border-green-600 hover:bg-green-50"
+                                    onClick={() => handleApprove(app.id)}
                                   >
-                                    Reject
+                                    Approve
                                   </Button>
-                                </DialogTrigger>
-                                <DialogContent>
-                                  <DialogHeader>
-                                    <DialogTitle>
-                                      Reject Application
-                                    </DialogTitle>
-                                    <DialogDescription>
-                                      Please provide a reason for rejecting this
-                                      application.
-                                    </DialogDescription>
-                                  </DialogHeader>
-                                  <div className="space-y-4 py-4">
-                                    <div className="space-y-2">
-                                      <Label htmlFor="reason">
-                                        Reason for Rejection
-                                      </Label>
-                                      <Textarea
-                                        id="reason"
-                                        placeholder="Enter reason for rejection"
-                                        value={rejectionReason}
-                                        onChange={(e) =>
-                                          setRejectionReason(e.target.value)
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                  <DialogFooter>
-                                    <Button
-                                      variant="outline"
-                                      onClick={() => {
-                                        setRejectionReason("");
-                                        setSelectedApplication(null);
-                                      }}
-                                    >
-                                      Cancel
-                                    </Button>
-                                    <Button
-                                      className="bg-red-600 hover:bg-red-700"
-                                      onClick={() =>
-                                        handleReject(selectedApplication.id)
-                                      }
-                                    >
-                                      Reject Application
-                                    </Button>
-                                  </DialogFooter>
-                                </DialogContent>
-                              </Dialog>
+                                  <Dialog>
+                                    <DialogTrigger asChild>
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="text-red-600 border-red-600 hover:bg-red-50"
+                                        onClick={() => setSelectedApplication(app)}
+                                      >
+                                        Reject
+                                      </Button>
+                                    </DialogTrigger>
+                                    <DialogContent>
+                                      <DialogHeader>
+                                        <DialogTitle>Reject Application</DialogTitle>
+                                        <DialogDescription>
+                                          Please provide a reason for rejecting this application.
+                                        </DialogDescription>
+                                      </DialogHeader>
+                                      <div className="space-y-4 py-4">
+                                        <div className="space-y-2">
+                                          <Label htmlFor="reason">Reason for Rejection</Label>
+                                          <Textarea
+                                            id="reason"
+                                            placeholder="Enter reason for rejection"
+                                            value={rejectionReason}
+                                            onChange={(e) => setRejectionReason(e.target.value)}
+                                          />
+                                        </div>
+                                      </div>
+                                      <DialogFooter>
+                                        <Button
+                                          variant="outline"
+                                          onClick={() => {
+                                            setRejectionReason("")
+                                            setSelectedApplication(null)
+                                          }}
+                                        >
+                                          Cancel
+                                        </Button>
+                                        <Button
+                                          className="bg-red-600 hover:bg-red-700"
+                                          onClick={() => handleReject(selectedApplication.id)}
+                                        >
+                                          Reject Application
+                                        </Button>
+                                      </DialogFooter>
+                                    </DialogContent>
+                                  </Dialog>
+                                </>
+                              )}
                             </div>
                           </TableCell>
                         </TableRow>
@@ -445,9 +431,7 @@ export default function AdminDashboardPage() {
           <Card>
             <CardHeader>
               <CardTitle>Approved Applications</CardTitle>
-              <CardDescription>
-                Applications that have been approved
-              </CardDescription>
+              <CardDescription>Applications that have been approved</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
@@ -463,9 +447,7 @@ export default function AdminDashboardPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredApplications.filter(
-                    (app) => app.status === "APPROVED"
-                  ).length === 0 ? (
+                  {filteredApplications.filter((app) => app.status === "APPROVED").length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={7} className="text-center py-4">
                         No approved applications found
@@ -476,23 +458,17 @@ export default function AdminDashboardPage() {
                       .filter((app) => app.status === "APPROVED")
                       .map((app) => (
                         <TableRow key={app.id}>
-                          <TableCell className="font-medium">
-                            {app.id.substring(0, 8)}...
-                          </TableCell>
+                          <TableCell className="font-medium">{app.id.substring(0, 8)}...</TableCell>
                           <TableCell>{`${app.user.firstName} ${app.user.lastName}`}</TableCell>
                           <TableCell>{app.certificateNumber}</TableCell>
                           <TableCell>{app.stateOfOrigin}</TableCell>
                           <TableCell>{app.localGovernment}</TableCell>
-                          <TableCell>
-                            {new Date(app.approvedAt).toLocaleDateString()}
-                          </TableCell>
+                          <TableCell>{new Date(app.approvedAt).toLocaleDateString()}</TableCell>
                           <TableCell>
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() =>
-                                router.push(`/admin/applications/${app.id}`)
-                              }
+                              onClick={() => router.push(`/admin/applications/${app.id}`)}
                             >
                               View
                             </Button>
@@ -510,9 +486,7 @@ export default function AdminDashboardPage() {
           <Card>
             <CardHeader>
               <CardTitle>Rejected Applications</CardTitle>
-              <CardDescription>
-                Applications that have been rejected
-              </CardDescription>
+              <CardDescription>Applications that have been rejected</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
@@ -528,9 +502,7 @@ export default function AdminDashboardPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredApplications.filter(
-                    (app) => app.status === "REJECTED"
-                  ).length === 0 ? (
+                  {filteredApplications.filter((app) => app.status === "REJECTED").length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={7} className="text-center py-4">
                         No rejected applications found
@@ -541,25 +513,219 @@ export default function AdminDashboardPage() {
                       .filter((app) => app.status === "REJECTED")
                       .map((app) => (
                         <TableRow key={app.id}>
-                          <TableCell className="font-medium">
-                            {app.id.substring(0, 8)}...
-                          </TableCell>
+                          <TableCell className="font-medium">{app.id.substring(0, 8)}...</TableCell>
                           <TableCell>{`${app.user.firstName} ${app.user.lastName}`}</TableCell>
                           <TableCell>{app.stateOfOrigin}</TableCell>
                           <TableCell>{app.localGovernment}</TableCell>
+                          <TableCell>{app.rejectionReason || "No reason provided"}</TableCell>
+                          <TableCell>{new Date(app.updatedAt).toLocaleDateString()}</TableCell>
                           <TableCell>
-                            {app.rejectionReason || "No reason provided"}
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => router.push(`/admin/applications/${app.id}`)}
+                            >
+                              View
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                  )}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="paid" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Paid Applications</CardTitle>
+              <CardDescription>Applications with completed payments</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>ID</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>State</TableHead>
+                    <TableHead>LGA</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredApplications.filter((app) => app.paymentStatus === "PAID").length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={7} className="text-center py-4">
+                        No paid applications found
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    filteredApplications
+                      .filter((app) => app.paymentStatus === "PAID")
+                      .map((app) => (
+                        <TableRow key={app.id}>
+                          <TableCell className="font-medium">{app.id.substring(0, 8)}...</TableCell>
+                          <TableCell>{`${app.user.firstName} ${app.user.lastName}`}</TableCell>
+                          <TableCell>{app.stateOfOrigin}</TableCell>
+                          <TableCell>{app.localGovernment}</TableCell>
+                          <TableCell>{new Date(app.createdAt).toLocaleDateString()}</TableCell>
+                          <TableCell>
+                            <Badge
+                              className={
+                                app.status === "APPROVED"
+                                  ? "bg-green-100 text-green-800 hover:bg-green-100"
+                                  : app.status === "REJECTED"
+                                    ? "bg-red-100 text-red-800 hover:bg-red-100"
+                                    : "bg-yellow-100 text-yellow-800 hover:bg-yellow-100"
+                              }
+                            >
+                              {app.status === "APPROVED" && <CheckCircle className="mr-1 h-3 w-3" />}
+                              {app.status === "PENDING" && <Clock className="mr-1 h-3 w-3" />}
+                              {app.status === "REJECTED" && <X className="mr-1 h-3 w-3" />}
+                              {app.status}
+                            </Badge>
                           </TableCell>
                           <TableCell>
-                            {new Date(app.updatedAt).toLocaleDateString()}
+                            <div className="flex space-x-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => router.push(`/admin/applications/${app.id}`)}
+                              >
+                                View
+                              </Button>
+                              {app.status === "PENDING" && (
+                                <>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="text-green-600 border-green-600 hover:bg-green-50"
+                                    onClick={() => handleApprove(app.id)}
+                                  >
+                                    Approve
+                                  </Button>
+                                  <Dialog>
+                                    <DialogTrigger asChild>
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="text-red-600 border-red-600 hover:bg-red-50"
+                                        onClick={() => setSelectedApplication(app)}
+                                      >
+                                        Reject
+                                      </Button>
+                                    </DialogTrigger>
+                                    <DialogContent>
+                                      <DialogHeader>
+                                        <DialogTitle>Reject Application</DialogTitle>
+                                        <DialogDescription>
+                                          Please provide a reason for rejecting this application.
+                                        </DialogDescription>
+                                      </DialogHeader>
+                                      <div className="space-y-4 py-4">
+                                        <div className="space-y-2">
+                                          <Label htmlFor="reason">Reason for Rejection</Label>
+                                          <Textarea
+                                            id="reason"
+                                            placeholder="Enter reason for rejection"
+                                            value={rejectionReason}
+                                            onChange={(e) => setRejectionReason(e.target.value)}
+                                          />
+                                        </div>
+                                      </div>
+                                      <DialogFooter>
+                                        <Button
+                                          variant="outline"
+                                          onClick={() => {
+                                            setRejectionReason("")
+                                            setSelectedApplication(null)
+                                          }}
+                                        >
+                                          Cancel
+                                        </Button>
+                                        <Button
+                                          className="bg-red-600 hover:bg-red-700"
+                                          onClick={() => handleReject(selectedApplication.id)}
+                                        >
+                                          Reject Application
+                                        </Button>
+                                      </DialogFooter>
+                                    </DialogContent>
+                                  </Dialog>
+                                </>
+                              )}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                  )}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="unpaid" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Unpaid Applications</CardTitle>
+              <CardDescription>Applications awaiting payment</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>ID</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>State</TableHead>
+                    <TableHead>LGA</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredApplications.filter((app) => app.paymentStatus !== "PAID").length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={7} className="text-center py-4">
+                        No unpaid applications found
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    filteredApplications
+                      .filter((app) => app.paymentStatus !== "PAID")
+                      .map((app) => (
+                        <TableRow key={app.id}>
+                          <TableCell className="font-medium">{app.id.substring(0, 8)}...</TableCell>
+                          <TableCell>{`${app.user.firstName} ${app.user.lastName}`}</TableCell>
+                          <TableCell>{app.stateOfOrigin}</TableCell>
+                          <TableCell>{app.localGovernment}</TableCell>
+                          <TableCell>{new Date(app.createdAt).toLocaleDateString()}</TableCell>
+                          <TableCell>
+                            <Badge
+                              className={
+                                app.status === "APPROVED"
+                                  ? "bg-green-100 text-green-800 hover:bg-green-100"
+                                  : app.status === "REJECTED"
+                                    ? "bg-red-100 text-red-800 hover:bg-red-100"
+                                    : "bg-yellow-100 text-yellow-800 hover:bg-yellow-100"
+                              }
+                            >
+                              {app.status === "APPROVED" && <CheckCircle className="mr-1 h-3 w-3" />}
+                              {app.status === "PENDING" && <Clock className="mr-1 h-3 w-3" />}
+                              {app.status === "REJECTED" && <X className="mr-1 h-3 w-3" />}
+                              {app.status}
+                            </Badge>
                           </TableCell>
                           <TableCell>
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() =>
-                                router.push(`/admin/applications/${app.id}`)
-                              }
+                              onClick={() => router.push(`/admin/applications/${app.id}`)}
                             >
                               View
                             </Button>
@@ -574,5 +740,5 @@ export default function AdminDashboardPage() {
         </TabsContent>
       </Tabs>
     </DashboardShell>
-  );
+  )
 }
