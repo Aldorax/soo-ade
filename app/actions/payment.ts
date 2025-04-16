@@ -31,30 +31,56 @@ export async function initializePayment(userId: string, applicationId: string) {
       return { success: false, error: "Payment has already been made for this application" }
     }
 
-    // Generate a unique reference
-    const reference = generateReference()
-
-    // Create a pending transaction record
-    const transaction = await db.transaction.create({
-      data: {
-        amount: APPLICATION_FEE,
-        currency: "NGN",
-        status: "PENDING",
-        reference,
-        userId,
+    // Check for existing pending transaction
+    const existingTransaction = await db.transaction.findFirst({
+      where: {
         applicationId,
-        metadata: JSON.stringify({
-          applicationType: "STATE_OF_ORIGIN",
-          applicationId,
-        }),
+        status: "PENDING",
       },
     })
 
+    // Generate a unique reference
+    const reference = generateReference()
+
+    let transaction
+
+    if (existingTransaction) {
+      // Update existing pending transaction with new reference
+      transaction = await db.transaction.update({
+        where: { id: existingTransaction.id },
+        data: {
+          reference,
+          updatedAt: new Date(),
+        },
+      })
+    } else {
+      // Create a new pending transaction record
+      transaction = await db.transaction.create({
+        data: {
+          amount: APPLICATION_FEE,
+          currency: "NGN",
+          status: "PENDING",
+          reference,
+          userId,
+          applicationId,
+          metadata: JSON.stringify({
+            applicationType: "STATE_OF_ORIGIN",
+            applicationId,
+          }),
+        },
+      })
+    }
+
     // Initialize payment with Paystack
-    const paymentResponse = await initializeTransaction(user.email, APPLICATION_FEE, reference, {
-      userId,
-      applicationId,
-    })
+    const paymentResponse = await initializeTransaction(
+      user.email,
+      APPLICATION_FEE,
+      reference,
+      {
+        userId,
+        applicationId,
+      }
+    )
 
     return {
       success: true,
@@ -126,7 +152,11 @@ export async function verifyPayment(reference: string) {
         },
       })
 
-      return { success: false, error: "Payment verification failed", transaction: updatedTransaction }
+      return {
+        success: false,
+        error: "Payment verification failed",
+        transaction: updatedTransaction,
+      }
     }
   } catch (error) {
     console.error("Error verifying payment:", error)
@@ -176,7 +206,10 @@ export async function getWalletSummary() {
       },
     })
 
-    const totalAmount = successfulTransactions.reduce((sum, transaction) => sum + transaction.amount, 0)
+    const totalAmount = successfulTransactions.reduce(
+      (sum, transaction) => sum + transaction.amount,
+      0
+    )
     const transactionCount = successfulTransactions.length
 
     // Get recent transactions

@@ -80,14 +80,6 @@ export default function DashboardPage() {
               <AlertDescription>
                 You need to pay the application fee of ₦10,000.00 to proceed with your application.
               </AlertDescription>
-              <Button
-                className="mt-2 bg-yellow-600 hover:bg-yellow-700 text-white"
-                size="sm"
-                onClick={() => router.push("/dashboard/payment")}
-              >
-                <CreditCard className="mr-2 h-4 w-4" />
-                Make Payment
-              </Button>
             </Alert>
           )}
 
