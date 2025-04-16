@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["multiSchema"]
@@ -12,37 +9,41 @@ datasource db {
 }
 
 model User {
-  id          String       @id @default(cuid())
-  email       String       @unique
-  password    String
-  firstName   String
-  middleName  String?
-  lastName    String
-  sex         String
-  dateOfBirth DateTime
-  phone       String
-  nationality String       @default("Nigeria")
-  role        Role         @default(USER)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  application Application?
+  id           String        @id @default(cuid())
+  email        String        @unique
+  password     String
+  firstName    String
+  middleName   String?
+  lastName     String
+  sex          String
+  dateOfBirth  DateTime
+  phone        String
+  nationality  String        @default("Nigeria")
+  role         String        @default("USER")
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  application  Application?
+  transactions Transaction[]
 }
 
 model Application {
-  id                String     @id @default(cuid())
-  certificateNumber String?    @unique
-  status            Status     @default(PENDING)
-  userId            String     @unique
-  user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String        @id @default(cuid())
+  certificateNumber String?       @unique
+  status            Status        @default(PENDING)
+  paymentStatus     PaymentStatus @default(UNPAID)
+  userId            String        @unique
   localGovernment   String
   stateOfOrigin     String
   address           String
-  documents         Document[]
-  createdAt         DateTime   @default(now())
-  updatedAt         DateTime   @updatedAt
+  nin               String
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
   approvedAt        DateTime?
   approvedBy        String?
   rejectionReason   String?
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  documents         Document[]
+  transaction       Transaction?
 }
 
 model Document {
@@ -50,8 +51,24 @@ model Document {
   name          String
   url           String
   applicationId String
-  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   createdAt     DateTime    @default(now())
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+}
+
+model Transaction {
+  id             String            @id @default(cuid())
+  amount         Float
+  currency       String            @default("NGN")
+  status         TransactionStatus
+  reference      String            @unique
+  paymentGateway String            @default("PAYSTACK")
+  metadata       String?
+  userId         String
+  applicationId  String?           @unique
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  application    Application?      @relation(fields: [applicationId], references: [id])
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationCode {
@@ -71,4 +88,17 @@ enum Status {
   PENDING
   APPROVED
   REJECTED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  REFUNDED
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
 }

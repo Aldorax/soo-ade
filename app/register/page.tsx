@@ -15,24 +15,26 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
 import { createUser } from "@/app/actions/auth"
 
-const personalInfoFormSchema = z.object({
-  firstName: z.string().min(2, { message: "First name must be at least 2 characters." }),
-  middleName: z.string().optional(),
-  lastName: z.string().min(2, { message: "Last name must be at least 2 characters." }),
-  sex: z.string().min(1, { message: "Please select your sex." }),
-  dateOfBirth: z.string(),
-  phone: z.string().min(10, { message: "Please enter a valid phone number." }),
-  email: z.string().email({ message: "Please enter a valid email address." }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters." }),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-})
+const personalInfoFormSchema = z
+  .object({
+    firstName: z.string().min(2, { message: "First name must be at least 2 characters." }),
+    middleName: z.string().optional(),
+    lastName: z.string().min(2, { message: "Last name must be at least 2 characters." }),
+    sex: z.string().min(1, { message: "Please select your sex." }),
+    dateOfBirth: z.string(),
+    phone: z.string().min(10, { message: "Please enter a valid phone number." }),
+    email: z.string().email({ message: "Please enter a valid email address." }),
+    password: z.string().min(8, { message: "Password must be at least 8 characters." }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  })
 
 const personalInfoDataSchema = personalInfoFormSchema.transform((data) => ({
   ...data,
-  dateOfBirth: new Date(data.dateOfBirth)
+  dateOfBirth: new Date(data.dateOfBirth),
 }))
 
 const additionalInfoSchema = z.object({
@@ -40,13 +42,28 @@ const additionalInfoSchema = z.object({
   stateOfOrigin: z.string().min(1, { message: "Please select your state of origin." }),
   localGovernment: z.string().min(1, { message: "Please select your local government." }),
   nationality: z.string().default("Nigeria"),
+  nin: z
+    .string()
+    .min(10, { message: "NIN must be at least 10 characters." })
+    .regex(/^\d+$/, { message: "NIN must contain only numbers." }),
 })
 
 const localGovernmentsByState = {
-  nasarawa: ["Akwanga", "Awe", "Doma", "Karu", "Keana", "Keffi", "Kokona", "Lafia", "Nasarawa", "Nasarawa Egon", "Obi", "Toto", "Wamba"],
-  kaduna: ["Birnin Gwari", "Chikun", "Giwa", "Igabi", "Ikara", "Jaba", "Jema'a", "Kachia", "Kaduna North", "Kaduna South", "Kagarko", "Kajuru", "Kaura", "Kauru", "Kubau", "Kudan", "Lere", "Makarfi", "Sabon Gari", "Sanga", "Soba", "Zangon Kataf", "Zaria"],
-  bauchi: ["Alkaleri", "Bauchi", "Bogoro", "Damban", "Darazo", "Dass", "Gamawa", "Ganjuwa", "Giade", "Itas/Gadau", "Jama'are", "Katagum", "Kirfi", "Misau", "Ningi", "Shira", "Tafawa Balewa", "Toro", "Warji", "Zaki"],
-  niger: ["Agaie", "Agwara", "Bida", "Borgu", "Bosso", "Chanchaga", "Edati", "Gbako", "Gurara", "Katcha", "Kontagora", "Lapai", "Lavun", "Magama", "Mariga", "Mashegu", "Mokwa", "Munya", "Paikoro", "Rafi", "Rijau", "Shiroro", "Suleja", "Tafa", "Wushishi"],
+  nasarawa: [
+    "Akwanga",
+    "Awe",
+    "Doma",
+    "Karu",
+    "Keana",
+    "Keffi",
+    "Kokona",
+    "Lafia",
+    "Nasarawa",
+    "Nasarawa Egon",
+    "Obi",
+    "Toto",
+    "Wamba",
+  ],
 }
 
 export default function RegisterPage() {
@@ -61,7 +78,7 @@ export default function RegisterPage() {
       middleName: "",
       lastName: "",
       sex: "",
-      dateOfBirth: new Date().toISOString().split('T')[0],
+      dateOfBirth: new Date().toISOString().split("T")[0],
       phone: "",
       email: "",
       password: "",
@@ -76,6 +93,7 @@ export default function RegisterPage() {
       stateOfOrigin: "",
       localGovernment: "",
       nationality: "Nigeria",
+      nin: "",
     },
   })
 
@@ -119,12 +137,29 @@ export default function RegisterPage() {
         <CardContent>
           <Tabs value={step} className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8">
-              <TabsTrigger value="personal" className={cn("data-[state=active]:bg-green-600 data-[state=active]:text-white", step === "personal" ? "bg-green-600 text-white" : "")}>
-                <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-green-600">1</span>
+              <TabsTrigger
+                value="personal"
+                className={cn(
+                  "data-[state=active]:bg-green-600 data-[state=active]:text-white",
+                  step === "personal" ? "bg-green-600 text-white" : "",
+                )}
+              >
+                <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-green-600">
+                  1
+                </span>
                 Personal Information
               </TabsTrigger>
-              <TabsTrigger value="additional" className={cn("data-[state=active]:bg-green-600 data-[state=active]:text-white", step === "additional" ? "bg-green-600 text-white" : "")} disabled={step === "personal"}>
-                <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-green-600">2</span>
+              <TabsTrigger
+                value="additional"
+                className={cn(
+                  "data-[state=active]:bg-green-600 data-[state=active]:text-white",
+                  step === "additional" ? "bg-green-600 text-white" : "",
+                )}
+                disabled={step === "personal"}
+              >
+                <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-green-600">
+                  2
+                </span>
                 Additional Details
               </TabsTrigger>
             </TabsList>
@@ -135,12 +170,16 @@ export default function RegisterPage() {
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name</Label>
                     <Input id="lastName" {...personalForm.register("lastName")} placeholder="Enter last name" />
-                    {personalForm.formState.errors.lastName && <p className="text-sm text-red-500">{personalForm.formState.errors.lastName.message}</p>}
+                    {personalForm.formState.errors.lastName && (
+                      <p className="text-sm text-red-500">{personalForm.formState.errors.lastName.message}</p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name</Label>
                     <Input id="firstName" {...personalForm.register("firstName")} placeholder="Enter first name" />
-                    {personalForm.formState.errors.firstName && <p className="text-sm text-red-500">{personalForm.formState.errors.firstName.message}</p>}
+                    {personalForm.formState.errors.firstName && (
+                      <p className="text-sm text-red-500">{personalForm.formState.errors.firstName.message}</p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="middleName">Middle Name</Label>
@@ -152,47 +191,84 @@ export default function RegisterPage() {
                   <div className="space-y-2">
                     <Label htmlFor="sex">Sex</Label>
                     <Select onValueChange={(value) => personalForm.setValue("sex", value)}>
-                      <SelectTrigger><SelectValue placeholder="Select sex" /></SelectTrigger>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select sex" />
+                      </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="male">Male</SelectItem>
                         <SelectItem value="female">Female</SelectItem>
                       </SelectContent>
                     </Select>
-                    {personalForm.formState.errors.sex && <p className="text-sm text-red-500">{personalForm.formState.errors.sex.message}</p>}
+                    {personalForm.formState.errors.sex && (
+                      <p className="text-sm text-red-500">{personalForm.formState.errors.sex.message}</p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="dateOfBirth">Date of Birth</Label>
-                    <Input type="date" id="dateOfBirth" {...personalForm.register("dateOfBirth")} max={new Date().toISOString().split('T')[0]} min="1900-01-01" />
-                    {personalForm.formState.errors.dateOfBirth && <p className="text-sm text-red-500">{personalForm.formState.errors.dateOfBirth.message}</p>}
+                    <Input
+                      type="date"
+                      id="dateOfBirth"
+                      {...personalForm.register("dateOfBirth")}
+                      max={new Date().toISOString().split("T")[0]}
+                      min="1900-01-01"
+                    />
+                    {personalForm.formState.errors.dateOfBirth && (
+                      <p className="text-sm text-red-500">{personalForm.formState.errors.dateOfBirth.message}</p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone</Label>
                     <Input id="phone" {...personalForm.register("phone")} placeholder="Enter phone number" />
-                    {personalForm.formState.errors.phone && <p className="text-sm text-red-500">{personalForm.formState.errors.phone.message}</p>}
+                    {personalForm.formState.errors.phone && (
+                      <p className="text-sm text-red-500">{personalForm.formState.errors.phone.message}</p>
+                    )}
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" {...personalForm.register("email")} placeholder="Enter email address" />
-                  {personalForm.formState.errors.email && <p className="text-sm text-red-500">{personalForm.formState.errors.email.message}</p>}
+                  <Input
+                    id="email"
+                    type="email"
+                    {...personalForm.register("email")}
+                    placeholder="Enter email address"
+                  />
+                  {personalForm.formState.errors.email && (
+                    <p className="text-sm text-red-500">{personalForm.formState.errors.email.message}</p>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="password">Password</Label>
-                    <Input id="password" type="password" {...personalForm.register("password")} placeholder="Enter your password" />
-                    {personalForm.formState.errors.password && <p className="text-sm text-red-500">{personalForm.formState.errors.password.message}</p>}
+                    <Input
+                      id="password"
+                      type="password"
+                      {...personalForm.register("password")}
+                      placeholder="Enter your password"
+                    />
+                    {personalForm.formState.errors.password && (
+                      <p className="text-sm text-red-500">{personalForm.formState.errors.password.message}</p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="confirmPassword">Confirm Password</Label>
-                    <Input id="confirmPassword" type="password" {...personalForm.register("confirmPassword")} placeholder="Confirm password" />
-                    {personalForm.formState.errors.confirmPassword && <p className="text-sm text-red-500">{personalForm.formState.errors.confirmPassword.message}</p>}
+                    <Input
+                      id="confirmPassword"
+                      type="password"
+                      {...personalForm.register("confirmPassword")}
+                      placeholder="Confirm password"
+                    />
+                    {personalForm.formState.errors.confirmPassword && (
+                      <p className="text-sm text-red-500">{personalForm.formState.errors.confirmPassword.message}</p>
+                    )}
                   </div>
                 </div>
 
                 <div className="flex justify-end">
-                  <Button type="submit" className="bg-green-600 hover:bg-green-700">Next</Button>
+                  <Button type="submit" className="bg-green-600 hover:bg-green-700">
+                    Next
+                  </Button>
                 </div>
               </form>
             </TabsContent>
@@ -202,35 +278,60 @@ export default function RegisterPage() {
                 <div className="space-y-2">
                   <Label htmlFor="address">Address</Label>
                   <Input id="address" {...additionalForm.register("address")} placeholder="Enter your address" />
-                  {additionalForm.formState.errors.address && <p className="text-sm text-red-500">{additionalForm.formState.errors.address.message}</p>}
+                  {additionalForm.formState.errors.address && (
+                    <p className="text-sm text-red-500">{additionalForm.formState.errors.address.message}</p>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="stateOfOrigin">State of Origin</Label>
                     <Select onValueChange={handleStateChange}>
-                      <SelectTrigger><SelectValue placeholder="Select state" /></SelectTrigger>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select state" />
+                      </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="nasarawa">Nasarawa</SelectItem>
-                        <SelectItem value="kaduna">Kaduna</SelectItem>
-                        <SelectItem value="bauchi">Bauchi</SelectItem>
-                        <SelectItem value="niger">Niger</SelectItem>
                       </SelectContent>
                     </Select>
-                    {additionalForm.formState.errors.stateOfOrigin && <p className="text-sm text-red-500">{additionalForm.formState.errors.stateOfOrigin.message}</p>}
+                    {additionalForm.formState.errors.stateOfOrigin && (
+                      <p className="text-sm text-red-500">{additionalForm.formState.errors.stateOfOrigin.message}</p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="localGovernment">Local Government</Label>
-                    <Select onValueChange={(value) => additionalForm.setValue("localGovernment", value)} disabled={!selectedState}>
-                      <SelectTrigger><SelectValue placeholder={selectedState ? "Select local government" : "Select state first"} /></SelectTrigger>
+                    <Select
+                      onValueChange={(value) => additionalForm.setValue("localGovernment", value)}
+                      disabled={!selectedState}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder={selectedState ? "Select local government" : "Select state first"} />
+                      </SelectTrigger>
                       <SelectContent>
-                        {selectedState && localGovernmentsByState[selectedState as keyof typeof localGovernmentsByState].map((lg) => (
-                          <SelectItem key={lg} value={lg.toLowerCase().replace(/\s+/g, "_")}>{lg}</SelectItem>
-                        ))}
+                        {selectedState &&
+                          localGovernmentsByState[selectedState as keyof typeof localGovernmentsByState]?.map((lg) => (
+                            <SelectItem key={lg} value={lg.toLowerCase().replace(/\s+/g, "_")}>
+                              {lg}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
-                    {additionalForm.formState.errors.localGovernment && <p className="text-sm text-red-500">{additionalForm.formState.errors.localGovernment.message}</p>}
+                    {additionalForm.formState.errors.localGovernment && (
+                      <p className="text-sm text-red-500">{additionalForm.formState.errors.localGovernment.message}</p>
+                    )}
                   </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="nin">National Identification Number (NIN)</Label>
+                  <Input
+                    id="nin"
+                    {...additionalForm.register("nin")}
+                    placeholder="Enter your NIN (minimum 10 digits)"
+                  />
+                  {additionalForm.formState.errors.nin && (
+                    <p className="text-sm text-red-500">{additionalForm.formState.errors.nin.message}</p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -239,8 +340,12 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="flex justify-between">
-                  <Button type="button" variant="outline" onClick={() => setStep("personal")}>Previous</Button>
-                  <Button type="submit" className="bg-green-600 hover:bg-green-700">Submit</Button>
+                  <Button type="button" variant="outline" onClick={() => setStep("personal")}>
+                    Previous
+                  </Button>
+                  <Button type="submit" className="bg-green-600 hover:bg-green-700">
+                    Submit
+                  </Button>
                 </div>
               </form>
             </TabsContent>
@@ -249,7 +354,9 @@ export default function RegisterPage() {
         <CardFooter className="flex justify-center">
           <p className="text-sm text-gray-600">
             Already signed up?{" "}
-            <Link href="/login" className="text-green-600 hover:underline">Login</Link>
+            <Link href="/login" className="text-green-600 hover:underline">
+              Login
+            </Link>
           </p>
         </CardFooter>
       </Card>
